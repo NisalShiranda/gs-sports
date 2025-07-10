@@ -278,13 +278,8 @@ function ProductOverview() {
       selectedSize,
     };
 
-
     addToCart(productWithOptions, quantity);
     toast.success(`Added ${quantity} item(s) to cart`);
-    addToCart(productWithOptions, 1);
-    toast.success(
-      `Product added to cart`
-    );
     console.log(getCart());
   };
 
