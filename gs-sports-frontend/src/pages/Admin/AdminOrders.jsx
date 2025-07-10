@@ -156,30 +156,58 @@ function AdminOrders() {
                         <h1 className="text-md font-semibold">Status: {displayingOrder.status}</h1>
                         <h1 className="text-md font-semibold">Date: {new Date(displayingOrder.date).toDateString()}</h1>
                         <h1 className="text-md font-semibold">Total: {displayingOrder.total}</h1>
+                        
+                        
 
                     </div>
-                    <div className="w-full h-full overflow-y-scroll">
-                        <p>{displayingOrder.billItems.map((item,index) => {
-                            return (
-                                <div key={index} className="w-full flex justify-between items-center p-2 border-b">
-                                <div>
-                                    
-                                    <img src={item.image} alt={item.productName} className="w-[50px] h-[50px] object-cover rounded-md" />
-                                </div>
-                                    <div className="flex flex-col">
-                                        <h1 className="text-lg font-semibold">{item.productName}</h1>
-                                        <p className="text-sm text-gray-600">{item.altNames}</p>
-                                    </div>
-                                    <div className="flex space-x-2">
-                                        <p className="text-md">Price: {item.price.toFixed(2)}</p>
-                                        <p className="text-md">Quantity: {item.quantity}</p>
-                                        <p className="text-md">Total: {(item.price * item.quantity).toFixed(2)}</p>
-                                    </div>
-                                </div>
-                            )
-                            
-                        })}</p>
-                    </div>
+                    <div className="w-full h-full overflow-y-scroll px-4">
+  {displayingOrder.billItems.map((item, index) => (
+    <div
+      key={index}
+      className="w-full flex justify-between items-center py-3 border-b"
+    >
+      {/* Product Image */}
+      <img
+        src={item.image}
+        alt={item.productName}
+        className="w-[60px] h-[60px] object-cover rounded-md"
+      />
+
+      {/* Product Info */}
+      <div className="flex flex-col flex-1 ml-3">
+        <h1 className="text-lg font-semibold">{item.productName}</h1>
+
+        {/* ✅ Show Size if exists */}
+        {item.selectedSize && (
+          <p className="text-sm text-gray-600">Size: {item.selectedSize}</p>
+        )}
+
+        {/* ✅ Show Color if exists */}
+        {item.selectedColor && (
+  <div className="flex items-center space-x-2 text-sm text-gray-600 mt-1">
+    <span>Color:</span>
+    <div
+      className="w-4 h-4 rounded-full border border-gray-400"
+      style={{ backgroundColor: item.selectedColor }}
+      title={item.selectedColor}
+    />
+    <span>{item.selectedColor}</span>
+  </div>
+)}
+      </div>
+
+      {/* Price Details */}
+      <div className="flex flex-col items-end space-y-1">
+        <p className="text-sm">Price: LKR {item.price.toFixed(2)}</p>
+        <p className="text-sm">Qty: {item.quantity}</p>
+        <p className="text-sm font-semibold">
+          Total: LKR {(item.price * item.quantity).toFixed(2)}
+        </p>
+      </div>
+    </div>
+  ))}
+</div>
+
                    
                 </div>
 
