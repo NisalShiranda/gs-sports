@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import CategoryCard from '../../components/CategoryCard';
+import Offsection from '../../components/Offsection';
 
 function HomePage() {
   return (
@@ -40,6 +41,11 @@ function HomePage() {
             ))}
           </div>
         </div>
+      </section>
+
+      {/* 25% OFF SECTION */}
+      <section className="py-16 px-6 max-w-4xl mx-auto text-center">
+            <Offsection />
       </section>
 
       {/* ABOUT US */}
