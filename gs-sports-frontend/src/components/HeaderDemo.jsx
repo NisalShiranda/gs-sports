@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { TiShoppingCart } from 'react-icons/ti';
-import { Link } from 'react-router-dom';
-import { FiMenu, FiX } from 'react-icons/fi';
+import { FiMenu, FiX, FiUser, FiLogOut } from 'react-icons/fi';
 import Userdata from './Userdata';
 
 function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const navigate = useNavigate();
 
   const navLinks = [
     { name: 'Home', path: '/' },
@@ -13,6 +14,11 @@ function Header() {
     { name: 'Contact', path: '/contact' },
     { name: 'Reviews', path: '/reviews' },
   ];
+
+  const handleLogout = () => {
+    localStorage.removeItem('token'); // Remove token
+    navigate('/login'); // Redirect to login
+  };
 
   return (
     <header className="w-full h-[70px] bg-white text-gray-800 flex items-center justify-between px-6 shadow-md sticky top-0 z-50">
@@ -22,7 +28,7 @@ function Header() {
       </div>
 
       {/* Desktop Nav */}
-      <nav className="hidden md:flex gap-8 text-lg font-medium items-center">
+      <nav className="hidden md:flex gap-6 text-[16px] items-center font-medium">
         {navLinks.map((link, index) => (
           <Link
             key={index}
@@ -35,24 +41,52 @@ function Header() {
         ))}
       </nav>
 
-      {/* Right Icons */}
+      {/* Desktop Icons */}
       <div className="hidden md:flex items-center gap-4">
-        <Userdata />
-        <Link to="/cart" className="relative">
+        <Link
+          to="/profile"
+          className="p-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
+        >
+          <FiUser className="text-xl" />
+        </Link>
+
+        <button
+          onClick={handleLogout}
+          className="p-2 bg-red-500 text-white rounded hover:bg-red-600 transition"
+        >
+          <FiLogOut className="text-xl" />
+        </button>
+
+        <Link to="/cart" className="relative group ml-2">
           <TiShoppingCart className="text-3xl hover:text-red-500 transition" />
-          <span className="absolute -top-1 -right-2 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">2</span>
+          <span className="absolute -top-1 -right-2 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
+            2
+          </span>
         </Link>
       </div>
 
-      {/* Mobile Menu Button */}
-      <button className="md:hidden text-2xl" onClick={() => setMobileOpen(!mobileOpen)}>
+      {/* Mobile Menu Toggle */}
+      <button
+        className="md:hidden text-2xl"
+        onClick={() => setMobileOpen(!mobileOpen)}
+      >
         {mobileOpen ? <FiX /> : <FiMenu />}
       </button>
 
       {/* Mobile Sidebar */}
-      <div className={`fixed top-0 right-0 w-64 h-full bg-white shadow-lg transform ${mobileOpen ? 'translate-x-0' : 'translate-x-full'} transition-transform duration-300 ease-in-out z-50 md:hidden`}>
+      <div
+        className={`fixed top-0 right-0 w-64 h-full bg-white shadow-lg transform ${
+          mobileOpen ? "translate-x-0" : "translate-x-full"
+        } transition-transform duration-300 ease-in-out z-50 md:hidden`}
+      >
         <div className="flex flex-col p-6 space-y-6 text-lg">
-          <button className="text-right text-2xl" onClick={() => setMobileOpen(false)}><FiX /></button>
+          <button
+            className="text-right text-2xl self-end"
+            onClick={() => setMobileOpen(false)}
+          >
+            <FiX />
+          </button>
+
           {navLinks.map((link, index) => (
             <Link
               key={index}
@@ -63,8 +97,31 @@ function Header() {
               {link.name}
             </Link>
           ))}
-          <div className="mt-4"><Userdata /></div>
-          <Link to="/cart" className="flex items-center gap-2 mt-4 text-gray-800 hover:text-red-500">
+
+          <div className="flex gap-4 mt-4">
+            <Link
+              to="/profile"
+              className="p-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition "
+            >
+              <FiUser className="text-xl" />
+            </Link>
+
+            <button
+              onClick={() => {
+                handleLogout();
+                setMobileOpen(false);
+              }}
+              className="p-2 bg-red-500 text-white rounded hover:bg-red-600 transition flex items-center justify-center"
+            >
+              <FiLogOut className="text-xl cursor-pointer" />
+            </button>
+          </div>
+
+          <Link
+            to="/cart"
+            className="flex items-center gap-2 mt-6 text-gray-800 hover:text-red-500"
+            onClick={() => setMobileOpen(false)}
+          >
             <TiShoppingCart className="text-2xl" />
             Cart (2)
           </Link>

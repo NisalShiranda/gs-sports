@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import CategoryCard from '../../components/CategoryCard';
 
 function HomePage() {
   return (
@@ -19,6 +20,25 @@ function HomePage() {
               Shop Now
             </button>
           </Link>
+        </div>
+      </section>
+
+      {/* PRODUCT CATEGORIES */}
+      <section className="py-16 px-6 bg-white">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-xl font-bold text-center mb-10">
+            EVERYTHING FOR ALL SPORTS
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+            {[
+              { name: "Accessories", img: "../../../public/acc1.png" },
+              { name: "Clothes", img: "../../../public/clothes.png" },
+              { name: "Trophys", img: "../../../public/trophy1.png" },
+              { name: "Shoes", img: "../../../public/shoes1.png" },
+            ].map((category, idx) => (
+              <CategoryCard key={idx} name={category.name} img={category.img} />
+            ))}
+          </div>
         </div>
       </section>
 
