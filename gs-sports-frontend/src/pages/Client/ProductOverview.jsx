@@ -69,7 +69,7 @@ function ProductOverview() {
 
     addToCart(productWithOptions, 1);
     toast.success(
-      `Product added to cart (${selectedColor.name}, ${selectedSize})`
+      `Product added to cart`
     );
     console.log(getCart());
   };
