@@ -39,7 +39,7 @@ function ProductPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#0f172a] text-white px-4 py-6">
+    <div className="min-h-screen bg-white text-white px-4 py-6">
       
       {/* Search Section */}
       <div className="w-full max-w-5xl mx-auto mb-8">
@@ -47,7 +47,7 @@ function ProductPage() {
           <input
             type="text"
             placeholder="Search Products..."
-            className="w-full md:w-2/3 px-4 py-3 rounded-lg bg-white/10 text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500"
+            className="w-full md:w-2/3 px-4 py-3 rounded-lg bg-red-100 text-gray-500 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
