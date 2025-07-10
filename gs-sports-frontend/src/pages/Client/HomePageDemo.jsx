@@ -31,10 +31,10 @@ function HomePage() {
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
             {[
-              { name: "Accessories", img: "../../../public/acc1.png" },
-              { name: "Clothes", img: "../../../public/clothes.png" },
-              { name: "Trophys", img: "../../../public/trophy1.png" },
-              { name: "Shoes", img: "../../../public/shoes1.png" },
+              { name: "Accessory", img: "../../../public/acc1.png" },
+              { name: "Cloth", img: "../../../public/clothes.png" },
+              { name: "Trophy", img: "../../../public/trophy1.png" },
+              { name: "Shoe", img: "../../../public/shoes1.png" },
             ].map((category, idx) => (
               <CategoryCard key={idx} name={category.name} img={category.img} />
             ))}
