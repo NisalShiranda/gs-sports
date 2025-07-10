@@ -1,82 +1,76 @@
 import Order from '../Models/order.js';
 import Product from '../Models/product.js';
 
-export async function createOrder(req,res){
-    if(req.user == null){
-        res.status(403).json({
-            message: "You Need to Login First"
-        })
-        return;
+export async function createOrder(req, res) {
+    if (req.user == null) {
+      res.status(403).json({
+        message: "You Need to Login First"
+      });
+      return;
     }
-
+  
     const body = req.body;
-    
+  
     const orderData = {
-        orderID : "",
-        email : req.user.email,
-        name : body.name,
-        address : body.address,
-        phoneNumber : body.phoneNumber,
-        billItems : [],
-        total : 0
-    }
-    
-    Order.find().sort({date : -1}).limit(1).then(async (lastBills) => {
-        if(lastBills.length == 0){
-            orderData.orderID = "ORD0001";
-        }else{
-            const lastBill = lastBills[0];
-            const lastOrderID = lastBill.orderID;//"ORD0061"
-            const lastOrderNumber = lastOrderID.replace("ORD","");//"0061"
-            const lastOrderNumberInt = parseInt(lastOrderNumber);//61
-            const newOrderNumberInt = lastOrderNumberInt + 1;//62
-            const newOrderNumberStr = newOrderNumberInt.toString().padStart(4,'0');//"0062"
-            orderData.orderID = "ORD" + newOrderNumberStr;
+      orderID: "",
+      email: req.user.email,
+      name: body.name,
+      address: body.address,
+      phoneNumber: body.phoneNumber,
+      billItems: [],
+      total: 0
+    };
+  
+    Order.find().sort({ date: -1 }).limit(1).then(async (lastBills) => {
+      if (lastBills.length == 0) {
+        orderData.orderID = "ORD0001";
+      } else {
+        const lastBill = lastBills[0];
+        const lastOrderID = lastBill.orderID;
+        const lastOrderNumber = lastOrderID.replace("ORD", "");
+        const newOrderNumberStr = (parseInt(lastOrderNumber) + 1).toString().padStart(4, '0');
+        orderData.orderID = "ORD" + newOrderNumberStr;
+      }
+  
+      for (let i = 0; i < body.billItems.length; i++) {
+        const item = body.billItems[i];
+        const product = await Product.findOne({ productID: item.productID });
+  
+        if (product == null) {
+          res.status(404).json({
+            message: "Product with ID " + item.productID + " Not Found"
+          });
+          return;
         }
-        
-
-        for(let i=0; i<body.billItems.length; i++){
-
-            const product = await Product.findOne({productID : body.billItems[i].productID});
-            if(product == null){
-                res.status(404).json({
-                    message: "Product with ID " + body.billItems[i].productID + " Not Found"
-                })
-                return;
-            }
-            
-            orderData.billItems[i] = {
-                productID: product.productID,
-                productName: product.name,
-                image: product.images[0],
-                quantity: body.billItems[i].quantity,
-                price: product.price,
-            };
-            
-            orderData.total = orderData.total + (product.price * body.billItems[i].quantity);
-            
-           
-
-        }
-
-      
-        const order = new Order(orderData);
-        console.log(order);
-        order.save().then((res) => {
-            console.log(res);
-            res.json({
-                message: "Order Created"
-            })
-        }).catch(() => {
-            res.json({
-
-                message: "Order Not Created"
-            })
-        })
-
+  
+        orderData.billItems[i] = {
+          productID: product.productID,
+          productName: product.name,
+          image: product.images[0],
+          quantity: item.quantity,
+          price: product.price,
+          selectedColor: item.selectedColor || null, // ✅ Added
+          selectedSize: item.selectedSize || null    // ✅ Added
+        };
+  
+        orderData.total += product.price * item.quantity;
+      }
+  
+      const order = new Order(orderData);
+      console.log(order);
+  
+      order.save().then(() => {
+        res.json({
+          message: "Order Created"
+        });
+      }).catch(() => {
+        res.status(500).json({
+          message: "Order Not Created"
+        });
+      });
     });
-    
-}
+  }
+  
 
 export function getOrders(req,res){
     if(req.user == null){
