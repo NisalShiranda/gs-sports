@@ -104,35 +104,44 @@ export function getOrders(req,res){
     
 }
 
-export async function updateOrder(req,res){
-    try{
-        if(req.user == null){
-            res.status(403).json({
-                message: "You Need to Login First"
-            })
-            return;
-        }
-        if(req.user.role != 'admin'){
-            res.status(403).json({
-                message: "You are not allowed to update orders"
-            })
-            return;
-        }
-    
-        const orderID = req.params.orderID;
-        const order = await Order.findOneAndUpdate({orderID: orderID},req.body);
-        res.json({
-            message: "Order Updated",
-            
-        });
-    }catch(err){
-        console.log(err);
-        res.status(500).json({
-            message: "Order Not Updated"
-        });
+export async function updateOrder(req, res) {
+    try {
+      if (req.user == null) {
+        return res.status(403).json({ message: "You need to login first" });
+      }
+  
+      if (req.user.role !== 'admin') {
+        return res.status(403).json({ message: "You are not allowed to update orders" });
+      }
+  
+      const orderID = req.params.orderID;
+  
+      // Only allow status updates
+      const newStatus = req.body.status;
+      if (!newStatus) {
+        return res.status(400).json({ message: "Status is required" });
+      }
+  
+      const updatedOrder = await Order.findOneAndUpdate(
+        { orderID },
+        { status: newStatus },
+        { new: true }  // Return the updated document
+      );
+  
+      if (!updatedOrder) {
+        return res.status(404).json({ message: "Order not found" });
+      }
+  
+      res.json({
+        message: "Order status updated successfully",
+        order: updatedOrder
+      });
+    } catch (err) {
+      console.error("Error updating order:", err);
+      res.status(500).json({ message: "Order not updated" });
     }
-    
-}
+  }
+  
 
 export async function deleteOrder(req,res){
     try{

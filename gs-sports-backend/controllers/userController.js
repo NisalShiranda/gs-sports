@@ -256,3 +256,39 @@ export function changePassword(req, res) {
     }
 }
 
+// Get all users (admin only)
+export function getAllUsers(req, res) {
+    User.find()
+      .then(users => res.json(users))
+      .catch(() => res.status(500).json({ message: 'Users Not Found' }));
+  }
+  
+  
+  // Delete a user
+  export function deleteUser(req, res) {
+    if (req.user?.role !== 'admin') {
+      return res.status(403).json({ message: 'Not authorized' });
+    }
+    const email = req.params.email;
+    User.findOneAndDelete({ email }).then(() => {
+      res.json({ message: "User deleted" });
+    }).catch(() => {
+      res.status(500).json({ message: 'Failed to delete user' });
+    });
+  }
+  
+  // Change user role
+  export function changeUserRole(req, res) {
+    if (req.user?.role !== 'admin') {
+      return res.status(403).json({ message: 'Not authorized' });
+    }
+    const email = req.params.email;
+    const newRole = req.body.role;
+    User.findOneAndUpdate({ email }, { role: newRole }).then(() => {
+      res.json({ message: 'Role updated' });
+    }).catch(() => {
+      res.status(500).json({ message: 'Failed to update role' });
+    });
+  }
+  
+
