@@ -11,8 +11,9 @@ function Header() {
   const navLinks = [
     { name: 'Home', path: '/' },
     { name: 'Products', path: '/products' },
+    { name: 'Courses', path: '/reviews' },
     { name: 'Contact', path: '/contact' },
-    { name: 'Reviews', path: '/reviews' },
+    
   ];
 
   const handleLogout = () => {
@@ -43,12 +44,7 @@ function Header() {
 
       {/* Desktop Icons */}
       <div className="hidden md:flex items-center gap-4">
-        <Link
-          to="/profile"
-          className="p-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
-        >
-          <FiUser className="text-xl" />
-        </Link>
+       
 
         <button
           onClick={handleLogout}
@@ -99,12 +95,7 @@ function Header() {
           ))}
 
           <div className="flex gap-4 mt-4">
-            <Link
-              to="/profile"
-              className="p-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition "
-            >
-              <FiUser className="text-xl" />
-            </Link>
+            
 
             <button
               onClick={() => {

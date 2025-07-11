@@ -8,6 +8,8 @@ import CartPage from './Client/CartPage'
 import Checkout from './Client/Checkout'
 import HomePageDemo from '../pages/Client/HomePageDemo'
 import ForgetPassword from './Client/ForgetPassword'
+import ContactUs from './Client/Contactus'
+import CoursesPage from './Client/Courses'
 
 function HomePage() {
   return (
@@ -19,8 +21,8 @@ function HomePage() {
             <Route path="/products" element={<ProductPage />} />
             <Route path="/*" element={<h1>404 Not Found Nisal</h1>} />
             <Route path="/overview/:id" element={<ProductOverview />} />
-            <Route path="/contact" element={<h1>contact Us</h1>} />
-            <Route path="/reviews" element={<h1>Reviews</h1>} />
+            <Route path="/contact" element={<ContactUs />} />
+            <Route path="/reviews" element={<CoursesPage />} />
             <Route path="/cart" element={<CartPage />} />
             <Route path="/checkout" element={<Checkout />} />
             
