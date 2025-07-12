@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 // Mock icons for demonstration
 const Clock = ({ className }) => (
@@ -105,6 +105,10 @@ function CoursesPage() {
     message: "",
   });
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const courses = [
     {
       id: 1,
@@ -113,7 +117,7 @@ function CoursesPage() {
       duration: "12 weeks",
       level: "All Levels",
       students: "250+",
-      price: "$299",
+      price: "LKR 299",
       image:
         "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
       description:
@@ -139,7 +143,7 @@ function CoursesPage() {
       duration: "8 weeks",
       level: "Beginner to Advanced",
       students: "180+",
-      price: "$199",
+      price: "LKR 199",
       image:
         "https://images.unsplash.com/photo-1546519638-68e109498ffc?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
       description:
@@ -165,7 +169,7 @@ function CoursesPage() {
       duration: "6 weeks",
       level: "All Levels",
       students: "320+",
-      price: "$149",
+      price: "LKR 149",
       image:
         "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
       description:
@@ -191,7 +195,7 @@ function CoursesPage() {
       duration: "10 weeks",
       level: "Beginner to Intermediate",
       students: "150+",
-      price: "$249",
+      price: "LKR 249",
       image:
         "https://images.unsplash.com/photo-1530549387789-4c1017266635?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
       description:

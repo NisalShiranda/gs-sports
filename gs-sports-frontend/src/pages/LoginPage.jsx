@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { Link, useNavigate } from 'react-router-dom';
@@ -10,6 +10,10 @@ function LoginPage() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const loginWithGoogle = useGoogleLogin({
     onSuccess: (res) => {
@@ -94,7 +98,7 @@ function LoginPage() {
         {/* Login Button */}
         <button
           onClick={handleLogin}
-          className="w-full py-3 rounded-lg bg-gradient-to-r from-red-600 to-black text-white font-semibold hover:opacity-90 transition"
+          className="w-full py-3 rounded-lg bg-gradient-to-r from-red-600 to-black text-white font-semibold hover:opacity-90 transition cursor-pointer"
         >
           {loading ? "Loading..." : "Login"}
         </button>
@@ -102,7 +106,7 @@ function LoginPage() {
         {/* Google Login */}
         <button
           onClick={loginWithGoogle}
-          className="w-full py-3 rounded-lg bg-white/20 text-white font-medium flex items-center justify-center hover:bg-white/30 transition"
+          className="w-full py-3 rounded-lg bg-white/20 text-white font-medium flex items-center justify-center hover:bg-white/30 transition cursor-pointer"
         >
           <GrGoogle className="mr-2" />
           {loading ? "Loading..." : "Login with Google"}

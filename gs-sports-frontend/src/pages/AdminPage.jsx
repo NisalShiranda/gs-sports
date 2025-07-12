@@ -18,6 +18,10 @@ function AdminPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
       toast.error("You are not logged in");

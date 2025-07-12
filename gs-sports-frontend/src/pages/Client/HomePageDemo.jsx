@@ -3,7 +3,6 @@ import axios from "axios";
 import ProductCard from "../../components/ProductCard";
 import { Link } from "react-router-dom";
 import CategoryCard from "../../components/CategoryCard";
-import Offsection from "../../components/Offsection";
 import CustomerReviewsSection from "../../components/CustomerReview";
 
 const logos = [
@@ -51,7 +50,7 @@ function HomePage() {
             accessories.
           </p>
           <Link to="/products">
-            <button className="px-6 py-3 bg-red-500 text-white font-semibold rounded-full hover:bg-red-600 transition">
+            <button className="px-6 py-3 bg-red-500 text-white font-semibold rounded-full hover:bg-red-600 transition cursor-pointer">
               Shop Now
             </button>
           </Link>
@@ -143,42 +142,6 @@ function HomePage() {
             <div className="font-black pt-2 ">Muhammad Ali</div>
         </div>
       </section>
-
-      {/* CUSTOMER FEEDBACK
-      <section className="py-16 px-6 bg-gray-100">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-10">
-            Customer Reviews
-          </h2>
-          <div className="grid md:grid-cols-3 gap-6">
-            {[
-              {
-                name: "Thilina Perera",
-                text: "Excellent service and amazing quality gear. Highly recommend!",
-              },
-              {
-                name: "Dinithi Silva",
-                text: "The best place to shop for cricket and gym equipment in Sri Lanka.",
-              },
-              {
-                name: "Akalanka Fernando",
-                text: "Fast delivery and great support team. 5 stars!",
-              },
-            ].map((review, idx) => (
-              <div
-                key={idx}
-                className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition"
-              >
-                <p className="text-gray-600">"{review.text}"</p>
-                <p className="mt-4 text-sm text-red-500 font-medium">
-                  - {review.name}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section> */}
-
       
       <section className="py-16 px-6 bg-gray-100">
       <div className="">

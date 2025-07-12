@@ -132,6 +132,10 @@ function Products() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
     if (!loaded) {
       axios.get(import.meta.env.VITE_BACKEND_URL + "/api/product")
         .then((response) => {

@@ -17,6 +17,10 @@ function ProductOverview() {
   const [quantity, setQuantity] = useState(1); // ✅ New state
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
     if (!params.id) {
       toast.error("Product ID not found");
       navigate("/products");
@@ -39,8 +43,16 @@ function ProductOverview() {
   }, [params.id, navigate]);
 
   const handleAddToCart = () => {
-    if (!selectedColor || !selectedSize) {
-      toast.error("Please select color and size");
+    const hasColors = product.colors?.length > 0;
+    const hasSizes = product.sizes?.length > 0;
+
+    if (hasColors && !selectedColor) {
+      toast.error("Please select a color");
+      return;
+    }
+
+    if (hasSizes && !selectedSize) {
+      toast.error("Please select a size");
       return;
     }
 
@@ -50,19 +62,24 @@ function ProductOverview() {
       selectedSize,
     };
 
-
     addToCart(productWithOptions, quantity);
-   // toast.success(`Added ${quantity} item(s) to cart`);
+    // toast.success(`Added ${quantity} item(s) to cart`);
     addToCart(productWithOptions, 1);
-    toast.success(
-      `Product added to cart`
-    );
+    toast.success(`Product added to cart`);
     console.log(getCart());
   };
 
   const handleBuyNow = () => {
-    if (!selectedColor || !selectedSize) {
-      toast.error("Please select color and size");
+    const hasColors = product.colors?.length > 0;
+    const hasSizes = product.sizes?.length > 0;
+
+    if (hasColors && !selectedColor) {
+      toast.error("Please select a color");
+      return;
+    }
+
+    if (hasSizes && !selectedSize) {
+      toast.error("Please select a size");
       return;
     }
 
@@ -115,7 +132,7 @@ function ProductOverview() {
               </div>
 
               {/* Price */}
-              <div className="mb-4 sm:mb-6">
+              <div className="mb-2 sm:mb-3">
                 <h1 className="text-2xl sm:text-4xl font-bold text-black">
                   LKR {product.price.toFixed(2)}
                 </h1>
@@ -123,8 +140,8 @@ function ProductOverview() {
 
               {/* Colors */}
               {product.colors?.length > 0 && (
-                <div className="mb-4 sm:mb-6">
-                  <h3 className="text-sm font-medium text-gray-700 mb-3 uppercase tracking-wide">
+                <div className="mb-2 sm:mb-3">
+                  <h3 className="text-sm font-semibold text-gray-700 mb-3 uppercase tracking-wide">
                     COLORS
                   </h3>
                   <div className="flex space-x-2">
@@ -152,15 +169,15 @@ function ProductOverview() {
 
               {/* Sizes */}
               {product.sizes?.length > 0 && (
-                <div className="mb-4 sm:mb-6">
-                  <h3 className="text-sm font-medium text-gray-700 mb-3 uppercase tracking-wide">
+                <div className="mb-2 sm:mb-3">
+                  <h3 className="text-sm font-semibold text-gray-700 mb-3 uppercase tracking-wide">
                     SIZES
                   </h3>
                   <div className="flex flex-wrap gap-2">
                     {product.sizes.map((size, index) => (
                       <button
                         key={index}
-                        className={`px-3 py-2 sm:px-4 sm:py-2 border rounded text-sm transition-all duration-200 ${
+                        className={`px-3 py-2 sm:px-4 sm:py-2 border rounded text-sm transition-all duration-200 cursor-pointer ${
                           selectedSize === size
                             ? "border-gray-800 bg-gray-200 text-gray-800"
                             : "border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-gray-400"
@@ -180,20 +197,20 @@ function ProductOverview() {
               )}
 
               {/* ✅ Quantity Selector */}
-              <div className="mb-4 sm:mb-6">
-                <h3 className="text-sm font-medium text-gray-700 mb-3 uppercase tracking-wide">
+              <div className="mb-2 sm:mb-3">
+                <h3 className="text-sm font-semibold text-gray-700 mb-3 uppercase tracking-wide">
                   Quantity
                 </h3>
                 <div className="flex items-center space-x-3">
                   <button
-                    className="w-8 h-8 flex items-center justify-center border border-gray-400 rounded-md text-xl font-bold hover:bg-gray-100"
+                    className="w-8 h-8 flex items-center justify-center border border-gray-400 rounded-md text-xl font-bold hover:bg-gray-100 cursor-pointer"
                     onClick={decreaseQty}
                   >
                     −
                   </button>
                   <span className="text-lg font-medium">{quantity}</span>
                   <button
-                    className="w-8 h-8 flex items-center justify-center border border-gray-400 rounded-md text-xl font-bold hover:bg-gray-100"
+                    className="w-8 h-8 flex items-center justify-center border border-gray-400 rounded-md text-xl font-bold hover:bg-gray-100 cursor-pointer"
                     onClick={increaseQty}
                   >
                     +
@@ -202,18 +219,24 @@ function ProductOverview() {
               </div>
 
               {/* Action Buttons */}
-              <div className="mt-auto space-y-3">
+              <div className="mt-[-4] space-y-3">
                 <button
-                  className="bg-gray-800 text-white py-3 px-4 sm:px-6 rounded-md font-medium hover:bg-gray-700 w-full text-sm sm:text-base"
+                  className="bg-gray-800 text-white py-3 px-4 sm:px-6 rounded-md font-medium hover:bg-gray-700 w-full text-sm sm:text-base cursor-pointer"
                   onClick={handleAddToCart}
-                  disabled={!selectedColor || !selectedSize}
+                  disabled={
+                    (product.colors?.length > 0 && !selectedColor) ||
+                    (product.sizes?.length > 0 && !selectedSize)
+                  }
                 >
                   Add to Cart
                 </button>
                 <button
-                  className="bg-yellow-500 text-black py-3 px-4 sm:px-6 rounded-md font-medium hover:bg-yellow-600 w-full text-sm sm:text-base"
+                  className="bg-yellow-500 text-black py-3 px-4 sm:px-6 rounded-md font-medium hover:bg-yellow-600 w-full text-sm sm:text-base cursor-pointer"
                   onClick={handleBuyNow}
-                  disabled={!selectedColor || !selectedSize}
+                  disabled={
+                    (product.colors?.length > 0 && !selectedColor) ||
+                    (product.sizes?.length > 0 && !selectedSize)
+                  }
                 >
                   Buy Now
                 </button>

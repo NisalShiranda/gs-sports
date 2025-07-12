@@ -473,6 +473,10 @@ function ProductPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
     const categoryFromUrl = urlParams.get("category");
     if (categoryFromUrl) {
